@@ -11,13 +11,26 @@ from pandas.plotting import autocorrelation_plot
 
 DC_POWER = 2
 # load dataset
-def parser(x):
-	return datetime.strptime(x, '%d-%m-%Y %H:%M')
+def parser_plant_01(x):
+	return datetime.strptime(x, '%d-%m-%Y %H:%M:%S')
 
-data_series = read_csv('Plant_1_Generation_Data.csv', header=0, index_col=0, parse_dates=True, squeeze=True, date_parser=parser)
+def parser_plant_02(x):
+	return datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
+
+opcion = 2 
+
+data_plant_01 = 'https://raw.githubusercontent.com/xhrist14n/python_arima/master/Plant_1_Generation_Data.csv'
+data_plant_02 = 'https://raw.githubusercontent.com/xhrist14n/python_arima/master/Plant_2_Generation_Data.csv'
+
+
+if opcion == 1 :
+    data_series = read_csv(data_plant_01 , header=0, index_col=0, parse_dates=True, squeeze=True, date_parser=parser_plant_01)
+elif opcion == 2:
+    data_series = read_csv(data_plant_02 , header=0, index_col=0, parse_dates=True, squeeze=True, date_parser=parser_plant_02)
+
 features_name = data_series.columns.tolist()
 
-print(features_name)
+#print(features_name)
 
 series = data_series[features_name[DC_POWER]]
 
